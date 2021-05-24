@@ -141,7 +141,7 @@ void RenderTimer::Notify()
 
 void RenderTimer::start()
 {
-    wxTimer::Start(10);
+    wxTimer::Start(6);
 }
 
 IMPLEMENT_APP(MyApp)
@@ -305,26 +305,14 @@ void BasicDrawPane::paintEvent(wxPaintEvent& evt)
     dinoCount(dc);
     score++;
 
-    if (die(mersenne) % 4 == 0 && frames1 == 0 && wait1 == 0)
-    {
+    if (die(mersenne) % 4 == 0 && !frames1 && !frames2 && !framesRan && !framesRan2)
         aa = true;
-        wait1 = 1;
-    }
-    if (die(mersenne) % 6 == 0 && frames2 == 0 && wait1 == 0)
-    {
+    if (die(mersenne) % 6 == 0 && !frames1 && !frames2 && !framesRan && !framesRan2)
         bb = true;
-        wait1 = 1;
-    }
-    if (die(mersenne) % 3 == 0 && framesRan == 0 && wait1 == 0)
-    {
+    if (die(mersenne) % 3 == 0 && !frames1 && !frames2 && !framesRan && !framesRan2)
         cc = true;
-        wait1 = 1;
-    }
-    if (die(mersenne) % 5 == 0 && framesRan2 == 0 && wait1 == 0)
-    {
+    if (die(mersenne) % 5 == 0 && !frames1 && !frames2 && !framesRan && !framesRan2)
         dd = true;
-        wait1 = 1;
-    }
 
     std::vector<std::tuple<int, int, int, int>> cac;
 
@@ -347,14 +335,6 @@ void BasicDrawPane::paintEvent(wxPaintEvent& evt)
     {
         ran2 = renderEE(dc);
         cac.push_back(ran2);
-    }
-
-    if (wait1 > 0)
-        wait1++;
-
-    if (wait1 > waitTime1)
-    {
-        wait1 = 0;
     }
 
     for (int i = 0; i < Play.size(); i++)
@@ -423,6 +403,11 @@ std::tuple<int, int, int, int> BasicDrawPane::render(wxDC& dc)
 
     frames1++;
 
+    if (x < 300)
+    {
+        frames1 = 0;
+    }
+
     if (x < -w)
     {
         x = sz.x;
@@ -444,14 +429,6 @@ std::tuple<int, int, int, int> BasicDrawPane::render(wxDC& dc)
 
 void BasicDrawPane::TriggerPaint(wxKeyEvent& event)
 {
-  /*  if (event.GetKeyCode() == WXK_SPACE)
-    {
-        if (a == 0 || a <= 16)
-        {
-            increase = true;
-            wxSound::Play(wxT("DinoJump.wav"), wxSOUND_ASYNC);
-        }
-    }*/
     if (event.GetKeyCode() == WXK_ESCAPE)
     {
         if (!paused)
@@ -531,6 +508,11 @@ std::tuple<int, int, int, int> BasicDrawPane::render2(wxDC& dc)
 
     frames2++;
 
+    if (x1 < 300)
+    {
+        frames1 = 0;
+    }
+
     if (x1 < -w)
     {
         x1 = sz.x;
@@ -568,6 +550,11 @@ std::tuple<int, int, int, int> BasicDrawPane::renderE(wxDC& dc)
 
     framesRan++;
 
+    if (x2 < 300)
+    {
+        frames1 = 0;
+    }
+
     if (x2 < -w)
     {
         x2 = sz.x;
@@ -595,6 +582,11 @@ std::tuple<int, int, int, int> BasicDrawPane::renderEE(wxDC& dc)
     x3 += x_speed;
 
     framesRan2++;
+
+    if (x3 < 300)
+    {
+        frames1 = 0;
+    }
 
     if (x3 < -w)
     {
@@ -1041,26 +1033,14 @@ void BasicDrawPane::paintEvent(wxPaintEvent& evt)
     dinoCount(dc);
     score++;
 
-    if (die(mersenne) % 4 == 0 && frames1 == 0 && wait1 == 0)
-    {
+    if (die(mersenne) % 4 == 0 && !frames1 && !frames2 && !framesRan && !framesRan2)
         aa = true;
-        wait1 = 1;
-    }
-    if (die(mersenne) % 6 == 0 && frames2 == 0 && wait1 == 0)
-    {
+    if (die(mersenne) % 6 == 0 && !frames1 && !frames2 && !framesRan && !framesRan2)
         bb = true;
-        wait1 = 1;
-    }
-    if (die(mersenne) % 3 == 0 && framesRan == 0 && wait1 == 0)
-    {
+    if (die(mersenne) % 3 == 0 && !frames1 && !frames2 && !framesRan && !framesRan2)
         cc = true;
-        wait1 = 1;
-    }
-    if (die(mersenne) % 5 == 0 && framesRan2 == 0 && wait1 == 0)
-    {
+    if (die(mersenne) % 5 == 0 && !frames1 && !frames2 && !framesRan && !framesRan2)
         dd = true;
-        wait1 = 1;
-    }
 
     std::vector<std::tuple<int, int, int, int>> cac;
 
@@ -1083,14 +1063,6 @@ void BasicDrawPane::paintEvent(wxPaintEvent& evt)
     {
         ran2 = renderEE(dc);
         cac.push_back(ran2);
-    }
-
-    if (wait1 > 0)
-        wait1++;
-
-    if (wait1 > waitTime1)
-    {
-        wait1 = 0;
     }
 
     for (int i = 0; i < Play.size(); i++)
@@ -1159,6 +1131,11 @@ std::tuple<int, int, int, int> BasicDrawPane::render(wxDC& dc)
 
     frames1++;
 
+    if (x < 300)
+    {
+        frames1 = 0;
+    }
+
     if (x < -w)
     {
         x = sz.x;
@@ -1182,7 +1159,7 @@ void BasicDrawPane::TriggerPaint(wxKeyEvent& event)
 {
     if (event.GetKeyCode() == WXK_SPACE)
     {
-        if (a == 0 || a <= 16)
+        if (Play[0].a == 0 || Play[0].a <= 16)
         {
             Play[0].increase = true;
             wxSound::Play(wxT("DinoJump.wav"), wxSOUND_ASYNC);
@@ -1267,6 +1244,11 @@ std::tuple<int, int, int, int> BasicDrawPane::render2(wxDC& dc)
 
     frames2++;
 
+    if (x1 < 300)
+    {
+        frames1 = 0;
+    }
+
     if (x1 < -w)
     {
         x1 = sz.x;
@@ -1304,6 +1286,11 @@ std::tuple<int, int, int, int> BasicDrawPane::renderE(wxDC& dc)
 
     framesRan++;
 
+    if (x2 < 300)
+    {
+        frames1 = 0;
+    }
+
     if (x2 < -w)
     {
         x2 = sz.x;
@@ -1331,6 +1318,11 @@ std::tuple<int, int, int, int> BasicDrawPane::renderEE(wxDC& dc)
     x3 += x_speed;
 
     framesRan2++;
+
+    if (x3 < 300)
+    {
+        frames1 = 0;
+    }
 
     if (x3 < -w)
     {
@@ -1461,6 +1453,5 @@ void BasicDrawPane::reset(wxCommandEvent& evt)
     }
     D.adjust();
 }
-
 
 */
